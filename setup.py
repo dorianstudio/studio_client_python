@@ -12,7 +12,7 @@ with open('README.md') as fp:
 setup(
     name='skylab_studio',
     version='1.0.0',
-    author='skylabtech',
+    author='skylab-tech',
     author_email='info@skylabtech.ai',
     packages=find_packages(),
     scripts=[],
@@ -20,7 +20,7 @@ setup(
     license='LICENSE.txt',
     description='Skylab Studio python client',
     long_description=LONG_DESCRIPTION,
-    test_suite="skylabtech.test",
+    test_suite="skylab-tech.test",
     install_requires=[
         "requests >= 2.0.0"
     ],
