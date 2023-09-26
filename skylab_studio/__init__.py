@@ -69,12 +69,12 @@ class api:  # pylint: disable=invalid-name
     def _build_http_auth(self):
         return (self.api_key, "")
 
-    @staticmethod
-    def _build_request_headers():
+    def _build_request_headers(self):
         client_header = "%s-%s" % ("python", VERSION)
 
         headers = {
             API_HEADER_CLIENT: client_header,
+            API_HEADER_KEY: self.api_key,
             "Content-type": "application/json",
             "Accept": "text/plain",
         }
