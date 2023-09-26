@@ -198,6 +198,10 @@ class api:  # pylint: disable=invalid-name
         """API call to get a specific photo"""
         return self._api_request("photos/%s" % photo_id, "GET")
 
+    def get_photo_upload_url(self):
+        """API call to get a photo upload url"""
+        return self._api_request("photos/upload_url", "GET")
+
     def update_photo(self, photo_id, payload=None):
         """API call to update a specific photo"""
         return self._api_request("photos/%s" % photo_id, "PUT", payload=payload)
