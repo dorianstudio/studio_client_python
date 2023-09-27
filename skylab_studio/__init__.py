@@ -70,30 +70,25 @@ class api:  # pylint: disable=invalid-name
         return (self.api_key, "")
 
     def _build_request_headers(self):
-        client_header = "%s-%s" % ("python", VERSION)
+        client_header = f"python-{VERSION}"
 
-        headers = {
+        return {
             API_HEADER_CLIENT: client_header,
             API_HEADER_KEY: self.api_key,
             "Content-type": "application/json",
             "Accept": "text/plain",
         }
 
-        return headers
-
     def _build_request_path(self, endpoint):
-        path = "/api/public/v%s/%s" % (self.api_version, endpoint)
+        path = f"/api/public/v{self.api_version}/{endpoint}"
 
-        path = "%s://%s:%s%s" % (self.api_proto, self.api_host, self.api_port, path)
+        path = f"{self.api_proto}://{self.api_host}:{self.api_port}{path}"
 
         return path
 
     @staticmethod
     def _build_payload(data):
-        if not data:
-            return None
-
-        return json.dumps(data)
+        return json.dumps(data) if data else None
 
     def _api_request(self, endpoint, http_method, **kwargs):
         """Private method for api requests"""
@@ -107,9 +102,7 @@ class api:  # pylint: disable=invalid-name
         path = self._build_request_path(endpoint)
         LOGGER.debug("\tpath: %s", path)
 
-        data = self._build_payload(kwargs.get("payload"))
-        if not data:
-            data = kwargs.get("data")
+        data = self._build_payload(kwargs.get("payload")) or kwargs.get("data")
         LOGGER.debug("\tdata: %s", data)
 
         req_kw = dict(
@@ -148,23 +141,23 @@ class api:  # pylint: disable=invalid-name
 
     def get_job(self, job_id):
         """API call to get a specific job"""
-        return self._api_request("jobs/%s" % job_id, "GET")
+        return self._api_request(f"jobs/{job_id}", "GET")
 
     def update_job(self, job_id, payload=None):
         """API call to update a specific job"""
-        return self._api_request("jobs/%s" % job_id, "PUT", payload=payload)
+        return self._api_request(f"jobs/{job_id}", "PUT", payload=payload)
 
     def delete_job(self, job_id):
         """API call to delete a specific job"""
-        return self._api_request("jobs/%s" % job_id, "DELETE")
+        return self._api_request(f"jobs/{job_id}", "DELETE")
 
     def process_job(self, job_id):
         """API call to process a specific job"""
-        return self._api_request("jobs/%s/process" % job_id, "POST")
+        return self._api_request(f"jobs/{job_id}/process", "POST")
 
     def cancel_job(self, job_id):
         """API call to cancel a specific job"""
-        return self._api_request("jobs/%s/cancel" % job_id, "POST")
+        return self._api_request(f"jobs/{job_id}/cancel", "POST")
 
     def list_profiles(self):
         """API call to get all profiles"""
@@ -176,15 +169,15 @@ class api:  # pylint: disable=invalid-name
 
     def get_profile(self, profile_id):
         """API call to get a specific profile"""
-        return self._api_request("profiles/%s" % profile_id, "GET")
+        return self._api_request(f"profiles/{profile_id}", "GET")
 
     def update_profile(self, profile_id, payload=None):
         """API call to update a specific profile"""
-        return self._api_request("profiles/%s" % profile_id, "PUT", payload=payload)
+        return self._api_request(f"profiles/{profile_id}", "PUT", payload=payload)
 
     def delete_profile(self, profile_id):
         """API call to delete a specific profile"""
-        return self._api_request("profiles/%s" % profile_id, "DELETE")
+        return self._api_request(f"profiles/{profile_id}", "DELETE")
 
     def list_photos(self):
         """API call to get all photos"""
@@ -196,7 +189,7 @@ class api:  # pylint: disable=invalid-name
 
     def get_photo(self, photo_id):
         """API call to get a specific photo"""
-        return self._api_request("photos/%s" % photo_id, "GET")
+        return self._api_request(f"photos/{photo_id}", "GET")
 
     def get_photo_upload_url(self):
         """API call to get a photo upload url"""
@@ -204,8 +197,8 @@ class api:  # pylint: disable=invalid-name
 
     def update_photo(self, photo_id, payload=None):
         """API call to update a specific photo"""
-        return self._api_request("photos/%s" % photo_id, "PUT", payload=payload)
+        return self._api_request(f"photos/{photo_id}", "PUT", payload=payload)
 
     def delete_photo(self, photo_id):
         """API call to delete a specific photo"""
-        return self._api_request("photos/%s" % photo_id, "DELETE")
+        return self._api_request(f"photos/{photo_id}", "DELETE")
