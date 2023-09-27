@@ -152,8 +152,12 @@ class api:  # pylint: disable=invalid-name
         return self._api_request(f"jobs/{job_id}", "DELETE")
 
     def process_job(self, job_id):
-        """API call to process a specific job"""
+        """DEPRECATED API call to process a specific job"""
         return self._api_request(f"jobs/{job_id}/process", "POST")
+
+    def queue_job(self, job_id, payload=None):
+        """API call to queue a specific job"""
+        return self._api_request(f"jobs/{job_id}/queue", "POST", payload=payload)
 
     def cancel_job(self, job_id):
         """API call to cancel a specific job"""
@@ -202,3 +206,11 @@ class api:  # pylint: disable=invalid-name
     def delete_photo(self, photo_id):
         """API call to delete a specific photo"""
         return self._api_request(f"photos/{photo_id}", "DELETE")
+
+    def upload_photo(self, image_path: str, presigned_url: str):
+        """Upload photo to AWS bucket using presigned url"""
+        with open(image_path, "rb") as image_file:
+            image_data = image_file.read()
+        return requests.put(
+            presigned_url, data=image_data, headers={"Content-Type": "image/jpeg"}
+        )
