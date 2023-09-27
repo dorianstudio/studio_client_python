@@ -44,7 +44,7 @@ api.list_jobs()
 
 ```python
 payload = {
-  'profile_id': 1
+  "name": "job_name", "profile_id": 1
 }
 
 api.create_job(payload=payload)
@@ -77,9 +77,17 @@ api.delete_job(job_id=1)
 ```
 
 #### Process job
-
+DEPRECATED
 ```python
 api.process_job(job_id=1)
+```
+
+#### Queue job
+```python
+payload = {
+  "callback_url": "webhook url"
+}
+api.queue_job(job_id=1, payload=payload)
 ```
 
 #### Cancel job
@@ -140,7 +148,7 @@ api.list_photos()
 
 ```python
 payload = {
-  'image': 'some-base64-string'
+  "job_id": "job_id", "name": "image_name.jpg", "key": "key"
 }
 
 api.create_photo(payload=payload)
@@ -171,6 +179,13 @@ For all payload options, consult the [API documentation](http://docs.studio.skyl
 ```python
 api.delete_photo(photo_id=1)
 ```
+
+#### Delete photo
+
+```python
+api.upload_photo(image_path, presigned_url)
+```
+
 
 ### Expected Responses
 
